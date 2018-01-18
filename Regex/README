@@ -1,0 +1,35 @@
+Java正则表达式：Pattern类与Matcher类详解
+   一、捕获组
+       捕获组可以通过从左到右计算其开括号来编号，编号从1开始。例如，在表达式((A)(B(C)))中，存在四个这样的组：
+           1.((A)(B(C)))
+           2.(A)
+           3.(B(C))
+           4.(C)
+       组零始终代表整个表达式。 以(?)开头的组是纯的非捕获组，它不捕获文本，也不针对组合计进行计数。
+   二、Pattern类和Matcher类
+       Pattern类用于创建一个正则表达式,也可以说创建一个匹配模式,它的构造方法是私有的,不可以直接创建,但可以通过Pattern.complie(String regex)简单工厂方法创建一个正则表达式。pattern() 返回正则表达式的字符串形式,其实就是返回Pattern.complile(String regex)的regex参数。
+       1.Pattern.split(CharSequence input)
+           Pattern有一个split(CharSequence input)方法,用于分隔字符串,并返回一个String[],我猜String.split(String regex)就是通过Pattern.split(CharSequence input)来实现的。
+       2.Pattern.matcher(String regex,CharSequence input)是一个静态方法,用于快速匹配字符串,该方法适合用于只匹配一次,且匹配全部字符串。
+       3.Pattern.matcher(CharSequence input)
+           Pattern.matcher(CharSequence input)返回一个Matcher对象。
+           Matcher类的构造方法也是私有的,不能随意创建,只能通过Pattern.matcher(CharSequence input)方法得到该类的实例。
+           Pattern类只能做一些简单的匹配操作,要想得到更强更便捷的正则匹配操作,那就需要将Pattern与Matcher一起合作.Matcher类提供了对正则表达式的分组支持,以及对正则表达式的多次匹配支持。
+       4.Matcher.matches()/ Matcher.lookingAt()/ Matcher.find()
+           Matcher类提供三个匹配操作方法,三个方法均返回boolean类型,当匹配到时返回true,没匹配到则返回false
+           (1).matches()
+               matches()对整个字符串进行匹配,只有整个字符串都匹配了才返回true
+               我们现在回头看一下Pattern.matcher(String regex,CharSequence input),它与下面这段代码等价Pattern.compile(regex).matcher(input).matches()
+           (2).lookingAt()
+               lookingAt()对前面的字符串进行匹配,只有匹配到的字符串在最前面才返回true
+           (3).find()
+               find()对字符串进行匹配,匹配到的字符串可以在任何位置
+       5.Matcher.start()/ Matcher.end()/ Matcher.group()
+           当使用matches(),lookingAt(),find()执行匹配操作后,就可以利用以上三个方法得到更详细的信息。
+           start()返回匹配到的子字符串在字符串中的索引位置
+           end()返回匹配到的子字符串的最后一个字符在字符串中的索引位置
+           group()返回匹配到的子字符串
+   三、正则表达式的分组在java中是怎么使用的？
+       start(),end(),group()均有一个重载方法它们是start(int i),end(int i),group(int i)专用于分组操作,Mathcer类还有一个groupCount()用于返回有多少组。
+
+
