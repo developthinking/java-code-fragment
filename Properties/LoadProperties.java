@@ -102,6 +102,14 @@ public class LoadProperties {
             properties.store(writer, hintInfo);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (oFile != null) {
+                try {
+                    oFile.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
