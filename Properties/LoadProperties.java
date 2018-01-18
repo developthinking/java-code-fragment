@@ -8,11 +8,12 @@ import java.util.Set;
 
 
 public class LoadProperties {
-	/**
-	 * 读Properties文件
+    /**
+     * 读Properties文件
      * @param filePath 文件路径
      * @param encoding 文件编码
-	 */
+     * @return
+     */
     public static Properties getProperties(String filePath, String encoding) {
     	if (StringUtils.isNotBlank(filePath)) {
     		return null;
@@ -83,6 +84,25 @@ public class LoadProperties {
         Properties properties = getProperties(filePath, encoding);
         //关键字列表
         return properties.keySet();
+    }
+
+    /**
+     * 更新Properties
+     * @param properties properties对象
+     * @param hintInfo properties注释提示
+     * @param filePath 文件路径
+     * @param flag 是否追加写 true表示追加打开,false每次都是清空再重写
+     * @param encoding 文件编码
+     */
+    public static void updateProperties(Properties properties, String hintInfo, String filePath, boolean flag, String encoding) {
+        FileOutputStream oFile = null;
+        try {
+            oFile = new FileOutputStream(filePath, flag);//true表示追加打开,false每次都是清空再重写
+            OutputStreamWriter writer = new OutputStreamWriter(oFile, encoding);
+            properties.store(writer, hintInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
